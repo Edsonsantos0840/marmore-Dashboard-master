@@ -1,15 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import UseConvert from "../../hooks/UseConvert";
-import UseHttp from "../../hooks/UseHttp";
 import ConvertImage from "../ConvertImage";
+import { useRouter } from "next/navigation";
 
 export default function FormEditaProduto({ params }: any) {
   const url = `http://localhost:3000/api/produtos/${params.id}`;
   const [category, setCategory] = useState("");
   const [Title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
+  const [atua, setAtua] = useState([]);
+
+  const router = useRouter()
 
   const {
     image1,
@@ -26,7 +32,21 @@ export default function FormEditaProduto({ params }: any) {
     convert645,
   } = UseConvert();
 
-  const { setProduct, product } = UseHttp(url);
+  useEffect(() => {
+    async function getProduto(){
+      setLoading(true)
+      try {
+        const res = await fetch(url)
+        const json = await res.json()
+        setProduct(json)
+      } catch (error) {
+        setErr(error)
+        console.log(error)
+      }
+      setLoading(false)
+    }
+    getProduto()
+  },[url] )
 
   setTitle(product.Title);
   setImage1(product.image1)
@@ -36,7 +56,7 @@ export default function FormEditaProduto({ params }: any) {
   setCategory(product.category);
   setDescription(product.description);
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
     const produto = {
       Title,
@@ -47,12 +67,24 @@ export default function FormEditaProduto({ params }: any) {
       category,
       description,
     };
+    setLoading(true)
     try {
-      setProduct(produto);
-      // router.push("/page/dashboard/produtos");
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json" },
+        body: JSON.stringify(produto)
+      })
+      const json = await res.json()
+      setAtua((prevAtua) => [...prevAtua, json] )
+  
+      alert('Produto editado com sucesso')
+      router.push("/produtos")
+      
     } catch (error) {
-      alert(error);
+      setErr(error)
+      console.log(error)
     }
+    setLoading(false)
   }
 
   return (

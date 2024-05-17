@@ -13,6 +13,7 @@ export default function FormComment(props: any) {
   const [comentario, setComentario] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
+  const [atua, setAtua] = useState([]);
 
   const router = useRouter();
 
@@ -32,9 +33,10 @@ export default function FormComment(props: any) {
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(comenta)
       })
-  
-      alert('Produto cadastrado com sucesso')
-      router.push("/produtos");
+      const json = await res.json()
+      setAtua((prevAtua) => [...prevAtua, json] )
+
+      router.push(`/verProdutoUnico/${props.dat}`);
     } catch (error) {
       setErr(error)
       console.log(error)

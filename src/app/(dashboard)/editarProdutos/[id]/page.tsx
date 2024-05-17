@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "../../../components/form/Input";
 import UseConvert from "../../../hooks/UseConvert";
-import UseHttp from "../../../hooks/UseHttp";
 import ConvertImage from "../../../components/ConvertImage";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +11,9 @@ export default function EditarProdutos({params}: any) {
   const [category, setCategory] = useState("");
   const [Title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
 
   const {
     image1,
@@ -24,18 +26,30 @@ export default function EditarProdutos({params}: any) {
     convert645,
   } = UseConvert();
 
-  const { setProduct, product, err, loading } = UseHttp(url);
+  useEffect(() => {
+    async function getProduto(){
+      setLoading(true)
+      try {
+        const res = await fetch(url)
+        const json = await res.json()
+        setProduct(json)
+      } catch (error) {
+        setErr(error)
+        console.log(error)
+      }
+      setLoading(false)
+    }
+    getProduto()
+  },[url] )
 
  useEffect(() => {
-  product &&
-  setTitle(product.Title);
-  product &&
-  setCategory(product.category);
-  product &&
-  setDescription(product.description);
+  setTitle(product?.Title);
+  setCategory(product?.category);
+  setDescription(product?.description);
 
  },[product] )
-  function handleSubmit(e: any) {
+
+ async function handleSubmit(e: any) {
     e.preventDefault();
     const produto = {
       Title,
@@ -46,9 +60,22 @@ export default function EditarProdutos({params}: any) {
       category,
       description,
     };
-      setProduct(produto);
+      setLoading(true)
+    try {
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json" },
+        body: JSON.stringify(produto)
+      })
+  
       alert('Produto editado com sucesso')
-      router.push("/produtos");
+      router.push("/produtos")
+      
+    } catch (error) {
+      setErr(error)
+      console.log(error)
+    }
+    setLoading(false)
   }
 
   return (

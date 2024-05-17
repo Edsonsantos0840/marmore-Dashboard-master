@@ -3,24 +3,28 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaRegEdit, FaTrash } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
-import UseHttp from "../../hooks/UseHttp";
+import { useState } from "react";
 
 export default function ProdutoCard({ data }: any) {
   const url = `http://localhost:3000/api/produtos/${data.id}`;
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
+
   const router = useRouter();
 
-  const { delProduct, err, loading }: any = UseHttp(url);
-
-  
-
- function del(){
-    const confirmar = confirm("Voce realmente quer deletar?")
-    if(confirmar){
-      delProduct()
+  async function delProduct() {
+    setLoading(true);
+    try {
+      const res = await fetch(url, {
+        method: "DELETE",
+      });
+      alert("Produto deletado com sucesso");
+    } catch (error) {
+      setErr(error);
+      console.log(error);
     }
-    alert('Produto deletado com sucesso')
-   router.push('/produtos')
- }
+    setLoading(false);
+  }
 
   return (
     <>
@@ -105,7 +109,7 @@ export default function ProdutoCard({ data }: any) {
                 className="cursor-pointer"
               />
 
-              <FaTrash onClick={del} className="cursor-pointer" />
+              <FaTrash onClick={delProduct} className="cursor-pointer" />
             </div>
 
             <p className="text-[#00a1bac7] ">

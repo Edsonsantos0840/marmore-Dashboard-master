@@ -15,6 +15,7 @@ export default function FormUsuario() {
   const [status, setStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
+  const [atua, setAtua] = useState([]);
 
   const router = useRouter()
 
@@ -40,6 +41,8 @@ export default function FormUsuario() {
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(usuario)
       })
+      const json = await res.json()
+      setAtua((prevAtua) => [...prevAtua, json] )
       alert('Usuário cadastrado com sucesso')
       router.push('/usuarios')
     } catch (error) {

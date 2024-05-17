@@ -12,6 +12,7 @@ export default function FormProdutos(): React.JSX.Element {
   const [description, setDescription] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
+  const [atua, setAtua] = useState([]);
 
   const router = useRouter()
 
@@ -45,14 +46,15 @@ export default function FormProdutos(): React.JSX.Element {
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(produto)
       })
-  
+      const json = await res.json()
+      setAtua((prevAtua) => [...prevAtua, json] )
       alert('Produto cadastrado com sucesso')
-      router.refresh();
     } catch (error) {
       setErr(error)
       console.log(error)
     }
     setLoading(false)
+    router.push("/produtos")
   }
 
   return (

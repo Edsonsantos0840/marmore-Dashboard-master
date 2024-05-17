@@ -1,10 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, {useEffect, useState } from "react";
-import UseHttp from '../../../hooks/UseHttp'
 import UseConvert from '../../../hooks/UseConvert'
 import Input from "../../../components/form/Input";
 import ConvertImage from "../../../components/ConvertImage";
+import { useRouter } from "next/navigation";
 
 export default function EditarUsers({ params }: any) {
   const url =  `http://localhost:3000/api/users/${params.id}`
@@ -12,13 +11,31 @@ export default function EditarUsers({ params }: any) {
   const [email, setEmail] = useState("");
   const [fone, setFone] = useState("");
   const [tipo, setTipo] = useState("");
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
 
   const route = useRouter();
-  const {setUser, user, err, loading} = UseHttp(url)
+  
   const {userImage, setUserImage, convertToBase64 } = UseConvert()
 
+  useEffect(() => {
+    async function getUser(){
+      setLoading(true)
+      try {
+        const res = await fetch(url)
+        const json = await res.json()
+        setUser(json)
+      } catch (error) {
+        setErr(error)
+        console.log(error)
+      }
+      setLoading(false)
+    }
+    getUser()
+  },[url] )
 
-  function handleSubmit(e: any) {
+ async function handleSubmit(e: any) {
     e.preventDefault();
     const usuario = {
       name,
@@ -28,19 +45,28 @@ export default function EditarUsers({ params }: any) {
       userImage,
     };
    
-      setUser(usuario)
+    setLoading(true)
+    try {
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {"Content-Type":"application/json" },
+        body: JSON.stringify(usuario)
+      })
+  
       alert('Usuário editado com sucesso')
-    route.push("/usuarios");
+      route.push("/usuarios")
+      
+    } catch (error) {
+      setErr(error)
+      console.log(error)
+    }
+    setLoading(false)
   }
    useEffect(() => {
-    user &&
-    setName(user.name)
-    user &&
-    setEmail(user.email)
-    user &&
-    setFone(user.fone)
-    user &&
-    setTipo(user.tipo)
+    setName(user?.name)
+    setEmail(user?.email)
+    setFone(user?.fone)
+    setTipo(user?.tipo)
    },[user] )
 
   return (

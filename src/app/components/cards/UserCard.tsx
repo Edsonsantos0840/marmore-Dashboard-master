@@ -2,14 +2,34 @@ import Image from "next/image";
 import { FaRegEdit, FaTrash, FaRegCircle } from "react-icons/fa";
 import { BsFillSendFill } from "react-icons/bs";
 import { useRouter } from 'next/navigation'
-import UseHttp from '../../hooks/UseHttp'
+import { useState } from "react";
+
 
 export default function UserCard({ data }: any) {
   const url = `http://localhost:3000//api/users/${data.id}`
-
-  const { delUser, err, loading} = UseHttp(url);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(false);
  
   const router = useRouter()
+
+  async function delUser(){
+    setLoading(true)
+    const confirmar = confirm("Voce realmente quer deletar?")
+    if(confirmar){
+      try {
+        await fetch(url, {
+        method: "DELETE"
+      });
+     
+     } catch (error) {
+          setErr(error)
+          console.log(error)
+     }
+    }
+    
+    setLoading(false)
+    router.push("/usuarios")
+ }
   
   return (
     <>
