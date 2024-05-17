@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int           @id @default(autoincrement())
+  userName       String?       @unique
+  name           String
+  email          String        @unique
+  password       String
+  fone           String?
+  userImage      String?
+  tipo           String
+  status         String?
+  createAt       DateTime      @default(now())
+  updateAt       DateTime      @updatedAt
+  likes          Likes[]
+  UserComments   UserComments? @relation(fields: [userCommentsId], references: [id])
+  userCommentsId Int?
+}
+
+model Produto {
+  id                Int              @id @default(autoincrement())
+  Title             String
+  image1            String
+  image2            String?
+  image3            String?
+  image4            String?
+  category          String
+  description       String
+  likes             Likes[]
+  createAt          DateTime         @default(now())
+  updateAt          DateTime         @updatedAt
+  ProdutoComments   ProdutoComments? @relation(fields: [produtoCommentsId], references: [id])
+  produtoCommentsId Int?
+}
+
+model UserComments {
+  id       Int        @id @default(autoincrement())
+  User     User[]
+  Comments Comments[]
+  createAt DateTime   @default(now())
+  updateAt DateTime   @updatedAt
+}
+
+model ProdutoComments {
+  id       Int        @id @default(autoincrement())
+  Produto  Produto[]
+  Comments Comments[]
+  createAt DateTime   @default(now())
+  updateAt DateTime   @updatedAt
+}
+
+model Comments {
+  id                Int              @id @default(autoincrement())
+  comment           String
+  createAt          DateTime         @default(now())
+  updateAt          DateTime         @updatedAt
+  ProdutoComments   ProdutoComments? @relation(fields: [produtoCommentsId], references: [id])
+  produtoCommentsId Int?
+  UserComments      UserComments?    @relation(fields: [userCommentsId], references: [id])
+  userCommentsId    Int?
+}
+
+model Likes {
+  id        Int      @id @default(autoincrement())
+  like      Int
+  produto   Produto  @relation(fields: [produtoId], references: [id])
+  produtoId Int      @unique
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+}
