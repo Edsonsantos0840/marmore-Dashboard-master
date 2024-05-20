@@ -4,20 +4,30 @@ import UseHttp from "../../hooks/UseHttp";
 import { useRouter } from "next/navigation";
 import Input from "./Input";
 import CardProdutoCliente from "../cards/CardProdutoCliente";
-import CardComment from "../cards/CardComment";
+import Image from "next/image";
 import FormLike from "./FormLike";
 
 export default function FormComment(props: any) {
+
   const urlp = `/api/produtos/${props.dat}`;
   const url: string = "/api/comentarios";
   const [comentario, setComentario] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const [atua, setAtua] = useState([]);
-
+  const qtd = []
+ 
   const router = useRouter();
 
   const { product: data } = UseHttp(urlp);
+  const {comment} = UseHttp(url);
+
+      comment?.filter((e:any) => {
+      if(e.ProdutoComments
+        ?.Produto[0]?.id == data.id){
+           qtd.push(e)
+      }
+    } )
 
   async function handleSubmit(e: any){
     e.preventDefault();
@@ -72,7 +82,27 @@ export default function FormComment(props: any) {
           )}
         </div>
       </form>
-      <CardComment/>
+      {qtd &&
+        qtd.map((e: any) => (
+          <div
+            key={e.id}
+            className=" w-full m-auto mt-4 py-2 px-8  font-semibold bg-slate-100 rounded-md shadow-lg "
+          >
+            <div className="flex gap-5 p-3 items-center ">
+              <Image
+                className="rounded-full"
+                src={e.UserComments?.User[0]?.userImage}
+                alt={e.UserComments?.User[0]?.name}
+                width={40}
+                height={40}
+              />
+              <h4>{e.UserComments?.User[0]?.name}</h4>
+              <p className="  bg-[var(--corPrincipal)] p-2  rounded-full shadow-md text-white " >{qtd.length}</p>
+            </div>
+            <p>{e.comment}</p>
+          </div>
+        ))
+        }
     </div>
   );
 }

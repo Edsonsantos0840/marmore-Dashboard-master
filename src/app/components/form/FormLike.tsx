@@ -2,17 +2,20 @@
 "use client";
 import { AiOutlineLike } from "react-icons/ai";
 import { useState } from "react";
-import CardLike from "../cards/CardLike";
 import { useRouter } from "next/navigation";
+import UseHttp from "../../hooks/UseHttp";
 
 export default function FormLike(props: any) {
   const url: string = "/api/like";
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const [atua, setAtua] = useState([]);
+  const qtd = []
   const [count, setCount] = useState(1);
 
   const router = useRouter();
+ 
+  const {like} = UseHttp(url)
 
   //funçao para criar like
   async function handleSubmit(e: any) {
@@ -41,12 +44,18 @@ export default function FormLike(props: any) {
     setLoading(false);
   }
 
+    like?.filter((e:any) => {
+      if(e.produtoId == props.dat){
+       qtd.push(e.like)
+      }
+    } )
+
   return (
     <>
       <button onClick={handleSubmit}>
         <AiOutlineLike className="text-3xl" />
       </button>
-      <CardLike />
+      <p className=" font-bold bg-[var(--corPrincipal)]  text-xl px-3 py-1 rounded-full shadow-md text-white " > {qtd.length}</p>
     </>
   );
 }

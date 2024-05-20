@@ -4,7 +4,9 @@ import { prisma } from "../../../libs/prisma";
 export async function GET() {
   const like = await prisma.likes.findMany({
     select: {
-      like: true
+      like: true,
+      produtoId: true,
+      userId: true
     }
   });
 

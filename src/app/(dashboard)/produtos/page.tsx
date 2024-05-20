@@ -37,6 +37,7 @@ export default function Produtos() {
       {product &&
         product.map((produto: any) => (
           <div key={produto.id}>
+
             <ProdutoCard data={produto} />
           </div>
         ))}

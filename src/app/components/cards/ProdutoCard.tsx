@@ -25,7 +25,7 @@ export default function ProdutoCard({ data }: any) {
     }
     setLoading(false);
   }
-
+   
   return (
     <>
      {

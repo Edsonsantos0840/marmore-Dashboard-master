@@ -7,17 +7,26 @@ export async function GET() {
      select: {
       id: true,
       comment: true,
-      UserComments: {
+      ProdutoComments: {
         select: {
-          User: {
+          Produto: {
             select: {
               id: true,
-              name: true,
-              userImage: true,
             }
           }
         }
+      },
+UserComments: {
+  select: {
+    User: {
+      select: {
+        id: true,
+        name: true,
+        userImage: true,
       }
+    }
+  }
+}
      }
   },
 );

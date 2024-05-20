@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function CardUnico({ data}: any) {
+
   return (
     <>
       <div
@@ -91,8 +92,6 @@ export default function CardUnico({ data}: any) {
               {data.description}
             </p>
 
-            {/* componente */}
-
             <div className="flex items-center justify-between text-xs p-3">
               <p className="text-[#00a1bac7] ">
                 {new Date(data.createdAt).toLocaleDateString()}
@@ -103,6 +102,7 @@ export default function CardUnico({ data}: any) {
               <p className="text-[#00a1bac7] ">
                 {new Date(data.updatedAt).toLocaleDateString()}
               </p>
+             
             </div>
           </div>
         </div>
