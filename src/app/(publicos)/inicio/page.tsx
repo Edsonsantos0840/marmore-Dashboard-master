@@ -4,13 +4,13 @@ import { nextAuthOptions } from "../../api/auth/[...nextauth]/route";
 import Image from "next/image";
 
 export default async function Início() {
-  const session: any = await getServerSession(nextAuthOptions);
+  const session: any = await getServerSession<any>(nextAuthOptions);
 
   return (
     <div className="pt-16">
       Olá {session?.user.name}{" "}
       <Image
-        src={session?.user.image}
+        src={session?.user.image || ''}
         alt="img"
         width={40}
         height={40}

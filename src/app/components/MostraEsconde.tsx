@@ -3,12 +3,12 @@ import React, { useRef } from "react";
 import Link from "next/link";
 
 export default function MostraEsconde() {
-  const fecha = useRef<any>();
+  const fecha: React.MutableRefObject<any> = useRef();
 
-  function fechar() {
+  function fechar(): void {
     fecha.current.style.display = "none";
   }
-  function mostrar() {
+  function mostrar(): void {
     fecha.current.style.display = "flex";
   }
 

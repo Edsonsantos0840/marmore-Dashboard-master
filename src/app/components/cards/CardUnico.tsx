@@ -7,18 +7,18 @@ export default function CardUnico({ data}: any) {
   return (
     <>
       <div
-        key={data.id}
+        key={data?.id}
         className="max-w-sm:flex-col content-center p-1 gap-2  bg-[#00000026]  rounded-xl shadow-lg mt-5 mb-5 "
       >
         <div className=" gap-3  ">
           <h2 className=" text-red-700 font-bold text-center text-2xl p-1 mb-6">
-            {data.Title}
+            {data?.Title}
           </h2>
           <div >
             <div  >
               <iframe 
                 scrolling="no" 
-                src={data.image1}
+                src={data?.image1 || ''}
                 width={610}
                 height={510}
                 name="frame"
@@ -32,7 +32,7 @@ export default function CardUnico({ data}: any) {
               <Link href={data.image1} target="frame">
                 <Image
                   src={data.image1 || ""}
-                  alt={data.title && data.title}
+                  alt={data.title || ""}
                   width={140}
                   height={70}
                   className="rounded-md shadow-lg border-2 border-[#00000047] cursor-pointer "
@@ -43,7 +43,7 @@ export default function CardUnico({ data}: any) {
                 <Link href={data.image2} target="frame">
                   <Image
                     src={data.image2 || ""}
-                    alt={data.title && data.title}
+                    alt={data.title || ""}
                     width={140}
                     height={70}
                     className="rounded-md shadow-lg border-2 border-[#00000047] cursor-pointer "
@@ -59,7 +59,7 @@ export default function CardUnico({ data}: any) {
                 <Link href={data.image3} target="frame">
                   <Image
                     src={data.image3 || ""}
-                    alt={data.title && data.title}
+                    alt={data.title || ""}
                     width={140}
                     height={70}
                     className="rounded-md shadow-lg border-2 border-[#00000047] cursor-pointer "
@@ -75,7 +75,7 @@ export default function CardUnico({ data}: any) {
                  <Link href={data.image4} target="frame">
                  <Image
                    src={data.image4 || ""}
-                   alt={data.title && data.title}
+                   alt={data.title || ""}
                    width={140}
                    height={70}
                    className="rounded-md shadow-lg border-2 border-[#00000047] cursor-pointer "
@@ -94,13 +94,13 @@ export default function CardUnico({ data}: any) {
 
             <div className="flex items-center justify-between text-xs p-3">
               <p className="text-[#00a1bac7] ">
-                {new Date(data.createdAt).toLocaleDateString()}
+                {new Date(data?.createdAt).toLocaleDateString()}
               </p>
               <div className="text-2xl text-[#026f80c7]">
 
               </div>
               <p className="text-[#00a1bac7] ">
-                {new Date(data.updatedAt).toLocaleDateString()}
+                {new Date(data?.updatedAt).toLocaleDateString()}
               </p>
              
             </div>

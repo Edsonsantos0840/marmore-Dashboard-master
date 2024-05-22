@@ -1,5 +1,5 @@
 // hokks
-import { useEffect, useCallback } from "react";
+import { useEffect} from "react";
 import { useState } from "react";
 
 export default function UseHttp(url) {
@@ -8,7 +8,7 @@ export default function UseHttp(url) {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const [product, setProduct] = useState(null);
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState([]);
   const [like, setLike] = useState(null);
 
   // função para buscar usuários
@@ -26,7 +26,7 @@ export default function UseHttp(url) {
     }
     setLoading(false);
     getUser();
-  }, [url]);
+  }, [setErr, setLoading, url]);
 
   // função para buscar produtos
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function UseHttp(url) {
     }
     setLoading(false);
     getProduct();
-  }, [url]);
+  }, [setErr, setLoading, url]);
 
   // função para buscar comentários
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function UseHttp(url) {
     }
     setLoading(false);
     getComment();
-  }, [url]);
+  }, [setErr, setLoading, url]);
 
   // função para buscar likes
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function UseHttp(url) {
     }
     setLoading(false);
     getLike();
-  }, [url]);
+  }, [setErr, setLoading, url]);
 
   return { user, product, comment, like, loading, err };
 }

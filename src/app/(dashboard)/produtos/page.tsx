@@ -4,14 +4,14 @@ import TopoAdd from "../../components/topos/TopoProduto";
 import ProdutoCard from "../../components/cards/ProdutoCard";
 
 export default function Produtos() {
-  const url = `http://localhost:3000/api/produtos `;
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
+  const url: string = `http://localhost:3000/api/produtos `;
+  const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<boolean>(false);
  
   useEffect(() => {
     setLoading(true);
-    async function getProduct() {
+    async function getProduct(): Promise<void> {
       try {
         const res = await fetch(url);
         const json = await res.json();

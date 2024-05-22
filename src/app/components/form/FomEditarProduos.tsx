@@ -7,13 +7,12 @@ import { useRouter } from "next/navigation";
 
 export default function FormEditaProduto({ params }: any) {
   const url = `http://localhost:3000/api/produtos/${params.id}`;
-  const [category, setCategory] = useState("");
-  const [Title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
-  const [atua, setAtua] = useState([]);
+  const [category, setCategory] = useState<string>("");
+  const [Title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [product, setProduct] = useState<any>(null)
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<boolean>(false);
 
   const router = useRouter()
 
@@ -33,7 +32,7 @@ export default function FormEditaProduto({ params }: any) {
   } = UseConvert();
 
   useEffect(() => {
-    async function getProduto(){
+    async function getProduto(): Promise<void>{
       setLoading(true)
       try {
         const res = await fetch(url)
@@ -56,27 +55,25 @@ export default function FormEditaProduto({ params }: any) {
   setCategory(product.category);
   setDescription(product.description);
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.SyntheticEvent): Promise<void> {
     e.preventDefault();
-    const produto = {
+    const produto: object = {
       Title,
       image1,
       image2,
       image3,
       image4,
-      category,
-      description,
+      category ,
+      description ,
     };
     setLoading(true)
     try {
-      const res = await fetch(url, {
+        await fetch(url, {
         method: "PUT",
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(produto)
       })
-      const json = await res.json()
-      setAtua((prevAtua) => [...prevAtua, json] )
-  
+
       alert('Produto editado com sucesso')
       router.push("/produtos")
       
@@ -92,6 +89,7 @@ export default function FormEditaProduto({ params }: any) {
       onSubmit={handleSubmit}
       className="flex flex-col items-center w-3/4  shadow-lg rounded-md p-10 "
     >
+      {loading && <h1>Carregando Dados....</h1> }
       <h1 className="text-3xl text-center font-bold ">
         Cadastro de Usuário
       </h1>
@@ -101,7 +99,7 @@ export default function FormEditaProduto({ params }: any) {
           className=" w-full text-center rounded-md border border-[#4e1d1d87] py-2 "
           id="category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value) }
         >
           <option value="">------Selecione uma Categoria</option>
           <option value="banheiros">Banheiros</option>
@@ -117,7 +115,7 @@ export default function FormEditaProduto({ params }: any) {
         type='text'
         placeholder='Digite o Título'
         value={Title}
-        onChange={(e: any) => setTitle(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value) }
       />
        </label> 
        
@@ -134,12 +132,12 @@ export default function FormEditaProduto({ params }: any) {
           name="desc"
           placeholder="Descrição"
           value={description}
-          onChange={(e: any) => 
-          setDescription(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value) }
         ></textarea>
       </label>
 
-      <Input type="submit" value="Enviar" />
+        {loading ? <Input type="submit" value="Aguarde" disabled /> : <Input type="submit" value="Enviar" /> }
+        { err && <p>{err}</p> }
     </form>
   );
 }

@@ -5,7 +5,7 @@ interface ImgProps {
   img: string;
 }
 
-export default function ConvertImage({ func, img }: ImgProps) {
+export default function ConvertImage({ func, img }: ImgProps){
   return (
     <>
       <label className="
@@ -17,7 +17,7 @@ export default function ConvertImage({ func, img }: ImgProps) {
           "Selecione a Imagem"
         ) : (
           <div>
-            <Image src={img} alt={"foto"} width={150} height={100} />
+            <Image src={img || ''} alt={"foto" || ''} width={150} height={100} />
           </div>
         )}
       </label>

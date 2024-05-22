@@ -5,9 +5,16 @@ import UseHttp from '../../../hooks/UseHttp'
 import UserCardUnico from "../../../components/cards/CardUserUnico";
 
 export default function VerUsuario({ params }: any) {
-const url = `/api/users/${params.id}`
+const url: string = `/api/users/${params.id}`
   const route = useRouter();
-  const {user: data, err, loading}: any = UseHttp(url)
+  const {user: data, err, loading}: {
+    user: Array<object>;
+    product: Array<object>;
+    comment: Array<object>;
+    like: Array<object>;
+    loading: boolean;
+    err: boolean;
+} = UseHttp(url)
 
   return (
     <section className="absolute top-0 left-[20%]  w-10/12 m-auto p-1 ">

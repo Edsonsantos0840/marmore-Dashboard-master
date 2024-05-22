@@ -7,14 +7,14 @@ import { useState } from "react";
 
 export default function UserCard({ data }: any) {
   const url = `http://localhost:3000//api/users/${data.id}`
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<boolean>(false);
  
   const router = useRouter()
 
-  async function delUser(){
+  async function delUser(): Promise<void>{
     setLoading(true)
-    const confirmar = confirm("Voce realmente quer deletar?")
+    const confirmar: boolean = confirm("Voce realmente quer deletar?")
     if(confirmar){
       try {
         await fetch(url, {
@@ -33,14 +33,14 @@ export default function UserCard({ data }: any) {
   
   return (
     <>
-         {
-     loading && <h1>Carregando Dados........</h1>
-     }
-     {
-      err && <p>{err}</p>
-     }
+          {
+          loading && <h1>Carregando Dados........</h1>
+          }
+          {
+            err && <p>{err}</p>
+          }
       <div
-        key={data.id}
+        key={data?.id}
         className=" bg-[#00000026]  rounded-sm shadow-lg mt-5 mb-5 "
       >
 
@@ -49,8 +49,8 @@ export default function UserCard({ data }: any) {
             data.userImage &&
           <div>
             <Image className=" rounded-full "
-              src={data.userImage}
-              alt={data.name}
+              src={data.userImage || ""}
+              alt={data.name || "" }
               width={60}
               height={60}
               id="ima"

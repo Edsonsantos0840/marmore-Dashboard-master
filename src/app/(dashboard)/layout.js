@@ -1,11 +1,9 @@
-import { Inter } from "next/font/google";
+
 import "../globals.css";
 import NavDashboard from '../components/navBar/NavDashboard'
 import { getServerSession } from "next-auth";
 import { nextAuthOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
  
@@ -23,7 +21,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="pt-br">
-      <body className={inter.className}>
+      <body >
           <NavDashboard/>
           {children}
      

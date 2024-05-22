@@ -5,7 +5,9 @@ import UseFiltro from '../../hooks/UseFiltro';
 
 export default function Escadas() {
 
-  const {produtoEscadas} = UseFiltro()
+  const {produtoEscadas}: {
+    produtoEscadas: object[];
+} = UseFiltro()
 
   return (
     <section>

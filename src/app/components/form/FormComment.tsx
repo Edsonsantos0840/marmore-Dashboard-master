@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import UseHttp from "../../hooks/UseHttp";
 import { useRouter } from "next/navigation";
 import Input from "./Input";
@@ -7,44 +7,51 @@ import CardProdutoCliente from "../cards/CardProdutoCliente";
 import Image from "next/image";
 import FormLike from "./FormLike";
 
-export default function FormComment(props: any) {
+export default function FormComment(props: { dat: number; userId: number; }) {
 
   const urlp = `/api/produtos/${props.dat}`;
   const url: string = "/api/comentarios";
-  const [comentario, setComentario] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
-  const [atua, setAtua] = useState([]);
-  const qtd = []
+  const comentario = useRef<HTMLTextAreaElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<boolean>(false);
+
+  const qtd: object[] = []
  
   const router = useRouter();
 
   const { product: data } = UseHttp(urlp);
-  const {comment} = UseHttp(url);
+  const {comment}: {   
+    user: Array<object>;
+    product: Array<object>;
+    comment: object[];
+    like: Array<object>;
+    loading: boolean;
+    err: boolean;
+} = UseHttp(url);
 
-      comment?.filter((e:any) => {
+  const id = data?.id
+
+      comment?.filter((e: any) => {
       if(e.ProdutoComments
-        ?.Produto[0]?.id == data.id){
+        ?.Produto[0]?.id == id){
            qtd.push(e)
       }
     } )
 
-  async function handleSubmit(e: any){
+  async function handleSubmit(e: React.SyntheticEvent): Promise<void>{
     e.preventDefault();
-    const comenta = {
-      comment: comentario,
+    const comenta: object = {
+      comment: comentario.current.value ,
       produtoId: Number(props.dat),
       userId: Number(props.userId),
     };
     setLoading(true)
     try {
-      const res = await fetch(url, {
+       await fetch(url, {
         method: "POST",
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(comenta)
       })
-      const json = await res.json()
-      setAtua((prevAtua) => [...prevAtua, json] )
 
       router.push(`/verProdutoUnico/${props.dat}`);
     } catch (error) {
@@ -71,8 +78,8 @@ export default function FormComment(props: any) {
             <textarea
               className="w-[90%] h-10"
               placeholder="Deixe seu Comentário"
-              value={comentario}
-              onChange={(e: any) => setComentario(e.target.value)}
+              ref={comentario}
+
             ></textarea>
           </label>
           {loading ? (
@@ -91,8 +98,8 @@ export default function FormComment(props: any) {
             <div className="flex gap-5 p-3 items-center ">
               <Image
                 className="rounded-full"
-                src={e.UserComments?.User[0]?.userImage}
-                alt={e.UserComments?.User[0]?.name}
+                src={e.UserComments?.User[0]?.userImage || ""}
+                alt={e.UserComments?.User[0]?.name || ''}
                 width={40}
                 height={40}
               />

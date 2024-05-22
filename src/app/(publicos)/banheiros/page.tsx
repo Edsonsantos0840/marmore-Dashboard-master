@@ -5,7 +5,9 @@ import UseFiltro from '../../hooks/UseFiltro';
 
 export default function Banheiros() {
 
-  const {produtoBanheiro} = UseFiltro()
+  const {produtoBanheiro}: {
+    produtoBanheiro: object[];
+} = UseFiltro()
 
   return (
     <section>

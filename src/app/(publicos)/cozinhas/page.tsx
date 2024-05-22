@@ -5,7 +5,9 @@ import UseFiltro from '../../hooks/UseFiltro';
 
 export default function Cozinhas() {
 
-  const {produtoCozinhas} = UseFiltro()
+  const {produtoCozinhas}: {
+    produtoCozinhas: object[];
+} = UseFiltro()
 
   return (
     <section>

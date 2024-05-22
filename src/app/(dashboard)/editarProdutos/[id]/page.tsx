@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 
 export default function EditarProdutos({params}: any) {
   const router = useRouter()
-  const url = `http://localhost:3000/api/produtos/${params.id}`;
-  const [category, setCategory] = useState("");
-  const [Title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const url: string = `http://localhost:3000/api/produtos/${params.id}`;
+  const [category, setCategory] = useState<string>("");
+  const [Title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<boolean>(false);
 
   const {
     image1,
@@ -27,7 +27,7 @@ export default function EditarProdutos({params}: any) {
   } = UseConvert();
 
   useEffect(() => {
-    async function getProduto(){
+    async function getProduto(): Promise<void>{
       setLoading(true)
       try {
         const res = await fetch(url)
@@ -49,9 +49,9 @@ export default function EditarProdutos({params}: any) {
 
  },[product] )
 
- async function handleSubmit(e: any) {
+ async function handleSubmit(e: React.SyntheticEvent): Promise<void> {
     e.preventDefault();
-    const produto = {
+    const produto: object = {
       Title,
       image1,
       image2,
@@ -62,7 +62,7 @@ export default function EditarProdutos({params}: any) {
     };
       setLoading(true)
     try {
-      const res = await fetch(url, {
+        await fetch(url, {
         method: "PUT",
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(produto)
@@ -84,9 +84,6 @@ export default function EditarProdutos({params}: any) {
       onSubmit={handleSubmit}
       className="flex flex-col items-center w-4/4  shadow-lg rounded-md p-10 "
     >
-      {
-        err && <p>{err}</p>
-      }
       <h1 className="text-3xl text-center font-bold ">
         Editar Usuário
       </h1>
@@ -96,7 +93,7 @@ export default function EditarProdutos({params}: any) {
           className=" w-full text-center rounded-md border border-[#4e1d1d87] py-2 "
           id="category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value)}
         >
           <option value="">------Selecione uma Categoria</option>
           <option value="banheiros">Banheiros</option>
@@ -112,7 +109,7 @@ export default function EditarProdutos({params}: any) {
         type='text'
         placeholder='Digite o Título'
         value={Title}
-        onChange={(e: any) => setTitle(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
       />
        </label> 
        
@@ -129,7 +126,7 @@ export default function EditarProdutos({params}: any) {
           name="desc"
           placeholder="Descrição"
           value={description}
-          onChange={(e: any) => 
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => 
           setDescription(e.target.value)}
         ></textarea>
       </label>
@@ -139,6 +136,9 @@ export default function EditarProdutos({params}: any) {
         <Input type="submit" value="Aguarde" disabled/> :
         <button>Enviar</button>
        }
+           {
+        err && <p>{err}</p>
+      }
     </form>
     </div>
   );

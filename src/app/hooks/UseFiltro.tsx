@@ -1,8 +1,21 @@
 import UseHttp from "./UseHttp";
-const url: string = `http://localhost:3000/api/produtos`
-export default function UseFiltro() {
+
+export default function UseFiltro(): {
+  produtoBanheiro: object[];
+  produtoCozinhas: object[];
+  produtoEscadas: object[];
+  produtoExteriores: object[];
+} {
+  const url: string = `http://localhost:3000/api/produtos`
    
-    const {product, err, loading} =UseHttp(url)
+    const {product, err, loading}: {
+      user: Array<object>;
+      product: Array<object>;
+      comment: object[];
+      like: Array<object>;
+      loading: boolean;
+      err: boolean;
+  } = UseHttp(url)
 
     const produtoBanheiro: Array<object> = product?.filter((e: { category: string; }) =>  {
         if (e.category === "banheiros") {

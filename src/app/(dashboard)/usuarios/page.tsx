@@ -6,7 +6,14 @@ import UserCard from "../../components/cards/UserCard";
 export default function Usuarios() {
   const url: string = `http://localhost:3000/api/users `;
 
-  const { user, err, loading} = UseHttp(url);
+  const { user, err, loading}: {
+    user: Array<object>;
+    product: Array<object>;
+    comment: Array<object>[];
+    like: Array<object>;
+    loading: boolean;
+    err: boolean;
+} = UseHttp(url);
   
   return (
     <section className="absolute top-0 left-[20%]  w-10/12 m-auto pr-1  ">

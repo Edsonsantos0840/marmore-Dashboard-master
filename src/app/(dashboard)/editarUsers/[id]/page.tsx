@@ -6,21 +6,21 @@ import ConvertImage from "../../../components/ConvertImage";
 import { useRouter } from "next/navigation";
 
 export default function EditarUsers({ params }: any) {
-  const url =  `http://localhost:3000/api/users/${params.id}`
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [fone, setFone] = useState("");
-  const [tipo, setTipo] = useState("");
+  const url: string =  `http://localhost:3000/api/users/${params.id}`
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [fone, setFone] = useState<string>("");
+  const [tipo, setTipo] = useState<string>("");
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<boolean>(false);
 
   const route = useRouter();
   
   const {userImage, setUserImage, convertToBase64 } = UseConvert()
 
   useEffect(() => {
-    async function getUser(){
+    async function getUser(): Promise<void>{
       setLoading(true)
       try {
         const res = await fetch(url)
@@ -35,9 +35,9 @@ export default function EditarUsers({ params }: any) {
     getUser()
   },[url] )
 
- async function handleSubmit(e: any) {
+ async function handleSubmit(e: React.SyntheticEvent): Promise<void> {
     e.preventDefault();
-    const usuario = {
+    const usuario: object = {
       name,
       email,
       fone,
@@ -47,7 +47,7 @@ export default function EditarUsers({ params }: any) {
    
     setLoading(true)
     try {
-      const res = await fetch(url, {
+        await fetch(url, {
         method: "PUT",
         headers: {"Content-Type":"application/json" },
         body: JSON.stringify(usuario)
@@ -86,28 +86,28 @@ export default function EditarUsers({ params }: any) {
         type="text"
         placeholder="Digite seu Nome"
         value={name}
-        Change={(e: any) => setName(e.target.value)}
+        Change={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
       />
       <Input
         texto="E-mail"
         type="email"
         placeholder="Digite seu E-mail"
         value={email}
-        Change={(e: any) => setEmail(e.target.value)}
+        Change={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
       />
       <Input
         texto="Telefone"
         type="tel"
         placeholder="Digite seu Telefone"
         value={fone}
-        Change={(e: any) => setFone(e.target.value)}
+        Change={(e: React.ChangeEvent<HTMLInputElement>) => setFone(e.target.value)}
       />
       <div className=" flex justify-between w-full gap-2 ml-4">
         <label className=" text-center py-2 w-full rounded-md border border-[#4e1d1d87] my-2">
           <select
             id="tipo"
             value={tipo}
-            onChange={(e) => setTipo(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTipo(e.target.value)}
           >
             <option value="">Escolha o tipo</option>
             <option value="adimin">Administrador</option>

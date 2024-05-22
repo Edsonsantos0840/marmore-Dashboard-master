@@ -5,10 +5,17 @@ import UseHttp from '../../../hooks/UseHttp'
 import CardUnico from "../../../components/cards/CardUnico";
 
 export default function VerProduto({ params }: any) {
-  const url = `/api/produtos/${params.id}`
+  const url: string = `/api/produtos/${params.id}`
   const route = useRouter();
 
-  const {product: data, err, loading}: any = UseHttp(url)
+  const {product: data, err, loading}: {
+    user: Array<object>;
+    product: Array<object>;
+    comment: Array<object>[];
+    like: Array<object>;
+    loading: boolean;
+    err: boolean;
+} = UseHttp(url)
 
   return (
     <section className="absolute top-0 left-[18%]  w-10/12 m-auto p-1 ">
