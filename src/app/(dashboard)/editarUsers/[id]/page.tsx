@@ -70,7 +70,7 @@ export default function EditarUsers({ params }: any) {
    },[user] )
 
   return (
-    <div className='absolute top-0 left-[19%] w-10/12 m-auto p-2 ' >
+    <div className="w-full md:absolute md:top-0 md:left-[19%]  md:w-10/12 m-auto pr-1 p-1" >
        <form
       onSubmit={handleSubmit}
       className="flex flex-col justify-center items-center w-3/4 p-8 shadow-lg rounded-md "

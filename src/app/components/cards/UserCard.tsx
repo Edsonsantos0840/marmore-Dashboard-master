@@ -41,13 +41,13 @@ export default function UserCard({ data }: any) {
           }
       <div
         key={data?.id}
-        className=" bg-[#00000026]  rounded-sm shadow-lg mt-5 mb-5 "
+        className=" text-xs md:text-base bg-[#00000016]  rounded-sm shadow-lg mt-5 mb-5 "
       >
 
         <div className="flex justify-between items-center ">
         {
             data.userImage &&
-          <div>
+          <div className=" w-[30px] h-[30px] md:w-[50px] md:h-[50px] " >
             <Image className=" rounded-full "
               src={data.userImage || ""}
               alt={data.name || "" }
@@ -57,17 +57,17 @@ export default function UserCard({ data }: any) {
             />
           </div>
            }
-          <h2 className=" text-red-700 font-bold  w-[16.5%]">{data.name}</h2>
+          <h2 className="text-sm md:text-base text-red-700 font-bold w-[25%]  md:w-[16.5%]">{data.name}</h2>
 
-          <p className="  text-[#6b6b6b]  w-[21%] ">{data.email}</p>
+          <p className=" hidden md:flex text-sm md:text-base  text-[#6b6b6b]  w-[21%] ">{data.email}</p>
 
-          <p className="  text-[#6b6b6b]  w-[10%]">
+          <p className="text-sm md:text-base  text-[#6b6b6b]  w-[21%]">
             {data.fone ? data.fone : "Não possui"}
           </p>
 
-          <p className="  text-[#6b6b6b]  w-[8%] ">{data.tipo}</p>     
+          <p className="text-sm md:text-base  text-[#6b6b6b]  w-[16%] ">{data.tipo}</p>     
 
-          <div className="flex justify-center  items-center gap-3 text-red-700 p-4 bg-[#fecaca82] w-[19%]">
+          <div className="flex justify-between  items-center gap-1 md:gap-2 text-red-700 p-2 md:p-4 bg-[#fecaca82] w-[18%]">
           
               <FaRegEdit className="cursor-pointer" onClick={() => router.push("editarUsers/" + data.id)} />
          

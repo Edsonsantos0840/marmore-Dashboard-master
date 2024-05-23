@@ -18,7 +18,7 @@ export default function VerProduto({ params }: any) {
 } = UseHttp(url)
 
   return (
-    <section className="absolute top-0 left-[18%]  w-10/12 m-auto p-1 ">
+    <section className=" w-full md:absolute md:top-0 md:left-[18%]  md:w-10/12 m-auto p-1 ">
            {
      loading && <h1>Carregando Dados........</h1>
      }

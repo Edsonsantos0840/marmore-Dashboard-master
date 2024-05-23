@@ -4,7 +4,7 @@ import FormDashboardProdutos from '../../components/form/FomDashboardProduos'
 export default function CadastroProduto() {
 
   return (
-    <div className='absolute top-0 left-[22%] pt-16 w-full m-auto p-6 ' >
+    <div className="w-full md:absolute md:top-0 md:left-[19%]  md:w-10/12 m-auto pr-1 p-1" >
       <FormDashboardProdutos/>
     </div>
   )

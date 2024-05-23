@@ -16,7 +16,7 @@ export default function Usuarios() {
 } = UseHttp(url);
   
   return (
-    <section className="absolute top-0 left-[20%]  w-10/12 m-auto pr-1  ">
+    <section className="w-full md:absolute md:top-0 md:left-[20%]  md:w-10/12 m-auto p-1   ">
      <TopoAdd />
      {
      loading && <h1>Carregando Dados........</h1>
